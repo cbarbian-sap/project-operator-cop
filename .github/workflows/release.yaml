@@ -17,7 +17,7 @@ on:
         required: false
         default: ''
 
-concurrency: release
+# note: we do not use any concurrency here, in order to avoid queued workflows being cancelled by higher priority workflows
 
 env:
   TAG_PREFIX: v
@@ -149,22 +149,14 @@ jobs:
         echo "Target commit: $sha"
         echo "sha=$sha" >> $GITHUB_OUTPUT
 
-    - name: Wait for build to finish
-      uses: fountainhead/action-wait-for-check@v1.1.0
-      id: wait_for_build
+    - name: Wait for check suites to complete
+      uses: jitterbit/await-check-suites@v1
       with:
-        token: ${{ github.token }}
-        checkName: Build Docker image
         ref: ${{ steps.get_target_commit.outputs.sha }}
+        intervalSeconds: 10
         timeoutSeconds: 900
-
-    - name: Check that build was successful
-      uses: actions/github-script@v3
-      with:
-        script: |
-          if ('${{ steps.wait_for_build.outputs.conclusion}}' != 'success') {
-            core.setFailed('Build not successful, conclusion: ${{ steps.wait_for_build.outputs.conclusion}}.')
-          }
+        failStepIfUnsuccessful: true
+        appSlugFilter: github-actions
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
