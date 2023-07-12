@@ -178,6 +178,6 @@ jobs:
           type=gha,scope=sha-${{ github.sha }},mode=max
           type=gha,scope=${{ github.ref_name }},mode=max
         outputs: |
-          type=docker,dest=${{ runner.temp }}/image.tar
+          type=oci,dest=${{ runner.temp }}/image.tar
         tags: ${{ steps.extract-metadata.outputs.tags }}
         labels: ${{ steps.extract-metadata.outputs.labels }}
