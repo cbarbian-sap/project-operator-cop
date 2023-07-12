@@ -14,6 +14,7 @@ concurrency: build-${{ github.ref }}
 env:
   HELM_VERSION: v3.11.3
   REGISTRY: ghcr.io
+  CHART_DIRECTORY: chart
 
 defaults:
   run:
