@@ -135,7 +135,7 @@ jobs:
     outputs:
       image-archive: image.tar
       image-repository: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-      image-tag: ${{ steps.extract-metadata.version }}
+      image-tag: ${{ steps.extract-metadata.outputs.version }}
 
     steps:
     - name: Checkout repository
@@ -230,9 +230,9 @@ jobs:
     - name: Install Helm chart and run Helm tests
       run: |
         release_name=$(yq .name $CHART_DIRECTORY/Chart.yaml)
-        kubectl create ns operator-system
-        helm -n operator-system upgrade -i $release_name --wait --timeout 5m \
+        kubectl create ns cop-system
+        helm -n cop-system upgrade -i $release_name --wait --timeout 5m \
           --set image.repository=${{ needs.build-docker.outputs.image-repository }} \
           --set image.tag=${{ needs.build-docker.outputs.image-tag }} \
           $CHART_DIRECTORY
-        helm -n operator-system test $release_name
+        helm -n cop-system test $release_name
