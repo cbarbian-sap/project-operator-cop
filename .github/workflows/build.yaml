@@ -225,6 +225,8 @@ jobs:
 
     - name: Load Docker image archive into Kind cluster
       run: |
+        find ${{ runner.temp }}
+        ls -la ${{ runner.temp }}/image.tar
         kind load image-archive ${{ runner.temp }}/image.tar
 
     - name: Install Helm chart and run Helm tests
