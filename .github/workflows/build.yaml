@@ -12,6 +12,7 @@ on:
 concurrency: build-${{ github.ref }}
 
 env:
+  HELM_VERSION: v3.11.3
   REGISTRY: ghcr.io
 
 defaults:
@@ -116,6 +117,14 @@ jobs:
           echo "Manifests are up-to-date."
         fi
 
+    - uses: azure/setup-helm@v3
+      with:
+       version: ${{ env.HELM_VERSION }}
+
+    - name: Lint Helm chart
+      run: |
+        helm lint $CHART_DIRECTORY
+
   build-docker:
     name: Build Docker image
     runs-on: ubuntu-22.04
@@ -167,6 +176,7 @@ jobs:
         cache-to: |
           type=gha,scope=sha-${{ github.sha }},mode=max
           type=gha,scope=${{ github.ref_name }},mode=max
-        push: false
+        outputs: |
+          type=docker,dest=${{ runner.temp }}/image.tar
         tags: ${{ steps.extract-metadata.outputs.tags }}
         labels: ${{ steps.extract-metadata.outputs.labels }}
