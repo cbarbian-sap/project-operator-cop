@@ -201,7 +201,7 @@ jobs:
 
     - uses: azure/setup-helm@v3
       with:
-       version: ${{ env.HELM_VERSION }}
+        version: ${{ env.HELM_VERSION }}
 
     - name: Lint Helm chart
       run: |
@@ -223,9 +223,9 @@ jobs:
         name: ${{ needs.build-docker.outputs.image-archive }}
         path: ${{ runner.temp }}/image.tar
 
-   - name: Load Docker image archive into Kind cluster
-     run: |
-       kind load image-archive ${{ runner.temp }}/image.tar
+    - name: Load Docker image archive into Kind cluster
+      run: |
+        kind load image-archive ${{ runner.temp }}/image.tar
 
     - name: Install Helm chart and run Helm tests
       run: |
