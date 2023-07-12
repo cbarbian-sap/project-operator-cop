@@ -13,7 +13,7 @@ concurrency: build-${{ github.ref }}
 
 env:
   HELM_VERSION: v3.11.3
-  KIND_VERSION: v0.18.0
+  KIND_VERSION: v0.19.0
   REGISTRY: ghcr.io
   CHART_DIRECTORY: chart
 
@@ -191,7 +191,7 @@ jobs:
         path: ${{ runner.temp }}/image.tar
 
   test-helm:
-    name: Run chart tests
+    name: Run Helm chart tests
     runs-on: ubuntu-22.04
     needs: build-docker
 
