@@ -227,7 +227,7 @@ jobs:
       run: |
         kind load image-archive ${{ runner.temp }}/${{ needs.build-docker.outputs.image-archive }}
 
-    - name: Install Helm chart and run Helm tests
+    - name: Install Helm chart and deploy sample component
       run: |
         release_name=$(yq .name $CHART_DIRECTORY/Chart.yaml)
         kubectl create ns cop-system
