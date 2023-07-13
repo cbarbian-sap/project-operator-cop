@@ -235,4 +235,6 @@ jobs:
           --set image.repository=${{ needs.build-docker.outputs.image-repository }} \
           --set image.tag=${{ needs.build-docker.outputs.image-tag }} \
           $CHART_DIRECTORY
-        helm -n cop-system test $release_name
+        kubectl create ns component-system
+        kubectl -n component-system apply -f examples/sample.yaml
+        kubectl -n component-system wait -f examples/sample.yaml --for condition=Ready --timeout 120s
