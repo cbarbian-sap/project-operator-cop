@@ -39,6 +39,7 @@ jobs:
   publish-docker:
     name: Publish Docker image
     runs-on: ubuntu-22.04
+    needs: validate
     permissions:
       contents: read
       packages: write
@@ -101,6 +102,7 @@ jobs:
   publish-crds:
     name: Publish CRD image
     runs-on: ubuntu-22.04
+    needs: validate
     permissions:
       contents: read
       packages: write
