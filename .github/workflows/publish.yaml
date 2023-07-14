@@ -9,6 +9,7 @@ concurrency: release-${{ github.event.release.tag_name }}
 env:
   REGCTL_VERSION: v0.4.8
   REGISTRY: ghcr.io
+  CHART_DIRECTORY: chart
 
 defaults:
   run:
