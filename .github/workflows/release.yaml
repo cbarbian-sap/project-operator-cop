@@ -3,10 +3,6 @@ name: Trigger release
 on:
   workflow_dispatch:
     inputs:
-      ref:
-        description: 'The ref to checkout (if not specified, github.ref is used)'
-        required: false
-        default: ''
       version-bump:
         description: 'Whether to bump major, minor or patch version'
         required: false
@@ -52,7 +48,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
       with:
-        ref: +${{ inputs.ref }}:refs/heads/main
         token: ${{ secrets.WORKFLOW_USER_GH_TOKEN }}
 
     - name: Setup semver
